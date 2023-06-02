@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CompanyAdmin() {
+function Login() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function CompanyAdmin() {
   )
 }
 
-export default CompanyAdmin
+export default Login

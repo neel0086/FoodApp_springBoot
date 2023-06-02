@@ -47,6 +47,9 @@ const Navbar = () => {
                         <li onClick={()=>setNavOpen("register_company")} className={`${"register_company"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
                             <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/register_company'>Register Company</Link>
                         </li>
+                        <li onClick={()=>setNavOpen("login")} className={`${"login"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/login'>Login</Link>
+                        </li>
                     </ul>
 
 

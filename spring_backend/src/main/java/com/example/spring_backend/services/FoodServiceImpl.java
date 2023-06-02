@@ -30,36 +30,49 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodModel addItems(FoodModel foodModel,Long companyId) {
-//        FoodEntity foodEntity = new FoodEntity();
-//        BeanUtils.copyProperties(foodModel, foodEntity);
-//        CompanyEntity companyEntity = companyRepository.findById(companyId)
-//                .orElseThrow();
-//        foodEntity.setCompanyEntity(companyEntity);
-//        foodRepository.save(foodEntity);
+        FoodEntity foodEntity = new FoodEntity();
+        BeanUtils.copyProperties(foodModel, foodEntity);
+        CompanyEntity companyEntity = companyRepository.findById(companyId)
+                .orElseThrow();
+        foodEntity.setCompanyEntity(companyEntity);
+        foodRepository.save(foodEntity);
         return foodModel;
     }
 
+    private CompanyModel mapCompanyEntityToModel(CompanyEntity companyEntity) {
+        return new CompanyModel(
+                companyEntity.getId(),
+                companyEntity.getName(),
+                companyEntity.getEmail(),
+                companyEntity.getAddress(),
+                companyEntity.getHelpLineNumber(),
+                companyEntity.getCity(),
+                companyEntity.getState(),
+                companyEntity.getPincode(),
+                companyEntity.getStartTime(),
+                companyEntity.getEndTime(),
+                companyEntity.getDocuments(),
+                companyEntity.getLogoUrl()
+        );
+    }
 //    @Override
     public List<FoodModel> getAllItems() {
         List<FoodEntity> employeeEntities = foodRepository.findAll();
-//        List<FoodModel> foodModels = employeeEntities
-//                .stream()
-//                .map(emp -> new FoodModel(
-//                        emp.getId(),
-//                        emp.getItemName(),
-//                        emp.getCategory()))
-//                .collect(Collectors.toList());
-        return null;
-    }
-
-    @Override
-    public FoodModel editEmployee(Long id, FoodModel foodModel) {
-        FoodEntity foodEntity
-                = foodRepository.findById(id).get();
-        foodEntity.setItemName(foodModel.getItemName());
-        foodEntity.setCategory(foodModel.getCategory());
-        foodRepository.save(foodEntity);
-        return foodModel;
+        List<FoodModel> foodModels = employeeEntities
+                .stream()
+                .map(emp -> new FoodModel(
+                        emp.getId(),
+                        emp.getItemName(),
+                        emp.getCategory(),
+                        emp.getPrice(),
+                        emp.getDescription(),
+                        emp.getRating(),
+                        emp.getDiscount(),
+                        emp.getFoodUrl(),
+                        mapCompanyEntityToModel(emp.getCompanyEntity())
+                ))
+                .collect(Collectors.toList());
+        return foodModels;
     }
 
     @Override
@@ -94,6 +107,8 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public CompanyModel addVerifiedCompany(CompanyModel companyModel) {
+        CompanyRequestEntity companyRequestEntity = companyRequestRepository.findById(companyModel.getId()).get();
+        companyRequestRepository.delete(companyRequestEntity);
         CompanyEntity companyEntity = new CompanyEntity();
         BeanUtils.copyProperties(companyModel,companyEntity);
         companyRepository.save(companyEntity);

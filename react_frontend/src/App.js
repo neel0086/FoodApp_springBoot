@@ -9,12 +9,14 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import RegisterCompany from './components/RegisterCompany';
 import Admin from './components/AdminSection/Admin';
-import CompanyAdmin from './components/CompanyAdmin';
+import CompanyAdmin from './components/CompanyAdminSection/CompanyAdmin';
 import SidebarProvider from './provider/SidebarProvider';
 import Inbox from './components/AdminSection/Inbox';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/AdminSection/Dashboard';
 import CompanyDetail from './components/AdminSection/CompanyDetail';
+import AddItem from './components/CompanyAdminSection/AddItem';
+import Login from './components/Auth/Login';
 
 
 const App = () => {
@@ -26,7 +28,11 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/register_company' element={<RegisterCompany />} />
-            <Route path='/company_admin' element={<CompanyAdmin />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/company_admin' element={<CompanyAdmin />} >
+              <Route path="add_item" element={<AddItem />} />
+
+            </Route>
 
             {/* <Route path='/admin' element={<Admin />} /> */}
             {/* <Route path='/admin/inbox' element={<Inbox />} /> */}

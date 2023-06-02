@@ -21,7 +21,8 @@ public class FoodModel {
     private String description;
     private Integer rating;
     private Integer discount;
+    private String foodUrl;
 
-    private CompanyEntity companyEntity;
+    private CompanyModel companyModel;
 
 }

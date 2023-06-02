@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FoodService from "../services/api.js"
+import { useNavigate } from 'react-router-dom';
 
 function RegisterCompany() {
     const [cmpnyDetails, setCmpnyDetails] = useState(
@@ -17,6 +18,7 @@ function RegisterCompany() {
             logoUrl: ""
         }
     )
+    const navigate = useNavigate()
     const handleChange = (e) => {
         const value = e.target.value;
         setCmpnyDetails({ ...cmpnyDetails, [e.target.name]: value })
@@ -38,6 +40,8 @@ function RegisterCompany() {
             documents: "",
             logoUrl: ""
         })
+        navigate('/')
+
     }
     return (
         <div className="ml-4 bg-gray-100 text-gray-900 tracking-wider leading-normal">

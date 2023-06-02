@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { data } from '../data/data.js'
+// import { data } from '../data/data.js'
 import { motion, AnimatePresence } from "framer-motion"
 import FoodService from '../services/api.js'
 const Food = () => {
-    const [foods, setFoods] = useState(data);
-
+    const [foods, setFoods] = useState(null);
+    const [foodData,setFoodData] = useState(null);
+    useEffect(()=>{
+        const fetchInfo = async ()=>{
+            const data = await FoodService.getAllItems()
+            setFoodData(data.data)
+            setFoods(data.data)
+            // console.log(data.data)
+        }
+        fetchInfo()
+    })
     const filterType = (category) => {
         setFoods(
-            data.filter((item) => {
+            foodData.filter((item) => {
                 return item.category === category;
             })
         )
     }
     const filterPrice = (price) => {
         setFoods(
-            data.filter((item) => {
+            foodData.filter((item) => {
                 return item.price === price;
             })
         )
@@ -36,7 +45,7 @@ const Food = () => {
                 <div>
                     <p className='font-bold text-gray-700'>Filter Type</p>
                     <div className='flex justify-between flex-wrap'>
-                        <button onClick={() => setFoods(data)} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>All</button>
+                        <button onClick={() => setFoods(foodData)} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>All</button>
                         <button onClick={() => filterType('burger')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>Burgers</button>
                         <button onClick={() => filterType('pizza')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>Pizza</button>
                         <button onClick={() => filterType('salad')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>Salads</button>
@@ -59,7 +68,7 @@ const Food = () => {
             {/* diplay food */}
             <AnimatePresence>
                 <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 pt-4'>
-                    {foods.map((item, index) => (
+                    {foods && foods.map((item, index) => (
                         <motion.div
                             layout
                             initial={{ opacity: 0 }}
@@ -68,9 +77,9 @@ const Food = () => {
                             transition={{ duration: 0.1 }}
                             key={item.id}
                             className="border shadow-lg rounded-lg hover:scale-105 duration-500 cursor-pointer">
-                            <img className='w-full h-[150px] md:h-[200px] object-cover rounded-t-lg' src={item.image} alt={item.name} />
+                            <img className='mx-auto p-2  object-cover rounded-t-lg' src={item.foodUrl} alt={item.name} />
                             <div className='flex justify-between px-2 py-4'>
-                                <p>{item.name}</p>
+                                <p>{item.itemName}</p>
                                 <p>
                                     <span className='bg-orange-500 text-white p-1 rounded-md'>{item.price}</span>
                                 </p>

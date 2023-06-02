@@ -12,7 +12,6 @@ public interface FoodService {
 
     List<FoodModel> getAllItems();
 
-    FoodModel editEmployee(Long id, FoodModel foodModel);
 
     CompanyRequestModel addCompany(CompanyRequestModel companyRequestModel);
 

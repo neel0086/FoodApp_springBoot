@@ -9,9 +9,9 @@ class FoodService{
             console.log('Error while calling getItems API ', error);
         }
     }
-    addItems = async (item)=>{
+    addItems = async (item,id)=>{
         try{
-            return await axios.post(`${url}/items`,item)
+            return await axios.post(`${url}/items/${id}`,item)
         }
         catch(error){
             console.log("Error while calling addItems API",error);

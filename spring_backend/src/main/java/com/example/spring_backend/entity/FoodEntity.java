@@ -23,6 +23,7 @@ public class FoodEntity {
     private String description;
     private Integer rating;
     private Integer discount;
+    private String foodUrl;
 
 
     @ManyToOne
