@@ -1,15 +1,21 @@
-package com.example.spring_backend.model;
+package com.example.spring_backend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class CompanyModel {
+@Table(name="CompanyRequest")
+public class CompanyRequestEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
@@ -22,9 +28,4 @@ public class CompanyModel {
     private String endTime;
     private String documents;
     private String logoUrl;
-
-
-
-    //    private List<FoodEntity> foodEntity;
-
 }

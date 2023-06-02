@@ -5,11 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class CompanyModel {
+@Table(name="Company")
+public class CompanyRequestModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
@@ -22,9 +28,4 @@ public class CompanyModel {
     private String endTime;
     private String documents;
     private String logoUrl;
-
-
-
-    //    private List<FoodEntity> foodEntity;
-
 }

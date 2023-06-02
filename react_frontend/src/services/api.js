@@ -25,5 +25,21 @@ class FoodService{
             console.log("Error while calling addCompany API",error);
         }
     }
+    getAllCompany = async ()=>{
+        try{
+            return (await axios.get(`${url}/company`)).data
+        }
+        catch(error){
+            console.log("Error while calling getAllCompany API",error);
+        }
+    }
+    addVerifiedCompany = async (cmpny)=>{
+        try{
+            return await axios.post(`${url}/company_verified`,cmpny)
+        }
+        catch(error){
+            console.log("Error while calling addCompany API",error);
+        }
+    }
 }
 export default new FoodService()

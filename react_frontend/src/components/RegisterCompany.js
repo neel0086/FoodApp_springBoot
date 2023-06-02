@@ -22,15 +22,28 @@ function RegisterCompany() {
         setCmpnyDetails({ ...cmpnyDetails, [e.target.name]: value })
     }
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault()
         FoodService.addCompany(cmpnyDetails)
+        setCmpnyDetails({
+            name: "",
+            email: "",
+            address: "",
+            helpLineNumber: "",
+            city: "",
+            state: "",
+            pincode: "",
+            startTime: "",
+            endTime: "",
+            documents: "",
+            logoUrl: ""
+        })
     }
     return (
         <div className="ml-4 bg-gray-100 text-gray-900 tracking-wider leading-normal">
 
             <div className="container w-full md:max-w-5xl mx-auto pt-20">
-            {/* <h1 className='font-bold text-3xl sm:text-4xl lg:text-4xl '>Home</h1> */}
+                {/* <h1 className='font-bold text-3xl sm:text-4xl lg:text-4xl '>Home</h1> */}
 
                 <div className="w-full px-4 md:px-6 text-xl leading-normal">
                     <div className="font-sans">
@@ -245,7 +258,7 @@ function RegisterCompany() {
                 </div>
                 <div className="w-full px-4 md:px-6 text-xl leading-normal pb-4">
                     <button onClick={handleSubmit} className="px-4 mb-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-bold rounded">
-                        Save 
+                        Save
                     </button>
                     <p>Please make sure all details are correct, we will give acess to you after verficaiton process completes</p>
                     <p>All futher communication will be done thorugh email.</p>

@@ -2,6 +2,7 @@ package com.example.spring_backend.controller;
 
 import com.example.spring_backend.entity.CompanyEntity;
 import com.example.spring_backend.model.CompanyModel;
+import com.example.spring_backend.model.CompanyRequestModel;
 import com.example.spring_backend.model.FoodModel;
 import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,21 @@ public class FoodController {
     }
 
     @PostMapping("/company")
-    public CompanyModel addCompany(@RequestBody CompanyModel companyModel){
-        return foodService.addCompany(companyModel);
+    public CompanyRequestModel addCompany(@RequestBody CompanyRequestModel companyRequestModel){
+        return foodService.addCompany(companyRequestModel);
+
+    }
+    @GetMapping("/company")
+    public List<CompanyRequestModel> getAllCompany(){
+        return foodService.getAllCompany();
 
     }
 
+    @PostMapping("/company_verified")
+    public CompanyModel addVerifiedCompany(@RequestBody CompanyModel companyModel){
+        return foodService.addVerifiedCompany(companyModel);
+
+    }
 //    @PutMapping("/employee/{id}")
 //    public ResponseEntity<FoodModel> editEmployee(@PathVariable Long id , @RequestBody FoodModel foodModel){
 //        foodModel = foodService.editEmployee(id, foodModel);
