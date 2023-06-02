@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { Transition } from '@headlessui/react';
 import { HiOutlineX, HiMenuAlt3 } from 'react-icons/hi'
-
 import logo from "../assets/logo.png";
-// import ColorIcon from "../assets/color.png";
 
 
 
@@ -15,6 +13,7 @@ const Navbar = () => {
     };
     const [isOpen, setIsOpen] = useState(false);
     const [boxDataOpen, setBoxDataOpen] = useState(false);
+    const [navOpen,setNavOpen] = useState("")
     const [selectedColor, setSelectedColor] = useState(() => {
         // Retrieve the color from local storage, or use a default value
         return localStorage.getItem('selectedColor') || '#2C2C2A';
@@ -28,23 +27,26 @@ const Navbar = () => {
     };
 
     return (
-        <nav style={{background:`${selectedColor}`}} className=" fixed shadow-md shadow-slate-600 w-screen text-white backdrop-blur-lg z-50 py-3">
+        <nav  className=" fixed  w-screen text-black bg-whitesmoke z-50 py-3">
             <div className="flex items-center justify-between  px-10">
-                <div className="flex space-x-10 align-center">
-                    <Link to="/" className="flex gap-2 text-2xl font-Roboto text-white text-lg  items-center sm:flex ">
+                <div className="flex justify-between w-full space-x-10 align-center">
+                    <Link to="/" className="flex align-items justify-center gap-2 text-2xl font-serif text-black text-xl leading-9  items-center sm:flex ">
                         <img className='w-16 mr-2 ' alt='logo' src={logo} />
-                        <span>Smart Rate</span>
+                        <span><h1 className='font-bold text-3xl sm:text-4xl lg:text-4xl '>Eatify</h1></span>
                     </Link>
                     <ul className="hidden  items-center md:flex text-lg tracking-widest ">
-                        {/* <li className='hover:invert-0.4'>
-                            <Link className='mx-1 px-2 font-Roboto text-white text-lg' to='/rate_calculator'>Rate Calculator</Link>
+                        <li onClick={()=>setNavOpen("Home")} className={`${"Home"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/'>Home</Link>
                         </li>
-                        <li className='hover:invert-0.4'>
-                            <Link className='mx-1 px-2 font-Roboto text-white text-lg' to='/data_search'>Data Search</Link>
-                        </li> */}
-                        
-
-
+                        <li onClick={()=>setNavOpen("Admin")} className={`${"Admin"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/admin'>Admin</Link>
+                        </li>
+                        <li onClick={()=>setNavOpen("company_admin")} className={`${"company_admin"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/company_admin'>Company Admin</Link>
+                        </li>
+                        <li onClick={()=>setNavOpen("register_company")} className={`${"register_company"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/register_company'>Register Company</Link>
+                        </li>
                     </ul>
 
 
@@ -57,9 +59,6 @@ const Navbar = () => {
                             <HiMenuAlt3 className='text-2xl text-gray-200' />
                         }
                     </button>
-                    {/* onClick={()=>closeWindow()} */}
-                    
-                    
                 </div>
 
 
@@ -77,25 +76,42 @@ const Navbar = () => {
                 {
                     (ref) => (
                         <div className="md:hidden " id="mobile-menu">
-                            {/* <div
+                            <div
                                 ref={ref}
-                                className="dark:bg-transparent dark:text-white mx-4 pt-4 pb-4 space-y-1"
+                                className="dark:bg-transparent dark:text-black mx-4 pt-4 pb-4 space-y-1"
                             >
                                 <Link
                                     to="/"
-                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-black block px-3 py-2 rounded-md text-base font-medium"
                                 >
-                                    Calculator
+                                    Home
                                 </Link>
 
                                 <Link
-                                    to="/data_seacrh"
-                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                    to="/admin"
+                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-black block px-3 py-2 rounded-md text-base font-medium"
                                 >
-                                    DataSearch
+                                    Admin
                                 </Link>
-                                
-                            </div> */}
+                                <Link
+                                    to="/box_rate"
+                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+                                >
+                                    Box Rate
+                                </Link>
+                                <Link
+                                    to="/company_admin"
+                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+                                >
+                                    Comapany Admin
+                                </Link>
+                                <Link
+                                    to="/register_company"
+                                    className="cursor-pointer hover:bg-blue-900/30 text-black dark:text-gray-200 hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+                                >
+                                    Register Company
+                                </Link>
+                            </div>
                         </div>
                     )
                 }

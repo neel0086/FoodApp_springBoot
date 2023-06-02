@@ -19,12 +19,15 @@ public class CompanyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String email;
     private String address;
     private String helpLineNumber;
     private String city;
     private String state;
     private String pincode;
-
+    private String startTime;
+    private String endTime;
+    private String logoUrl;
     @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL)
     private List<FoodEntity> foodEntity;
 

@@ -17,6 +17,10 @@ public class FoodModel {
     private int id;
     private String itemName;
     private String category;
+    private Integer price;
+    private String description;
+    private Integer rating;
+    private Integer discount;
 
     private CompanyEntity companyEntity;
 

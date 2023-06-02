@@ -1,29 +1,29 @@
 import axios from 'axios'
-const url = "http://localhost:8080/api/v1/employees"
+const url = "http://localhost:8080/api/v1"
 
-class EmployeeService{
-    createEmployee = async(employee)=>{
+class FoodService{
+    getAllItems = async()=>{
         try {
-            return await axios.post(`${url}`, employee);
+            return await axios.get(`${url}/items` );
         } catch (error) {
-            console.log('Error while calling createEmployee API ', error);
+            console.log('Error while calling getItems API ', error);
         }
     }
-    getEmployees = async ()=>{
+    addItems = async (item)=>{
         try{
-            return await axios.get(`${url}`)
+            return await axios.post(`${url}/items`,item)
         }
         catch(error){
-            console.log("Error while retriving the emplpoyees list",error);
+            console.log("Error while calling addItems API",error);
         }
     }
-    editEmployees = async (employee,id) =>{
+    addCompany = async (cmpny)=>{
         try{
-            return axios.put(url+"/"+id,employee)
+            return await axios.post(`${url}/company`,cmpny)
         }
         catch(error){
-            console.log("Error ")
+            console.log("Error while calling addCompany API",error);
         }
     }
 }
-export default new EmployeeService()
+export default new FoodService()

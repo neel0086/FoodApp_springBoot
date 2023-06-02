@@ -1,31 +1,36 @@
 import React from 'react'
+
 import {
   BrowserRouter as Router,
   Route, Routes
 } from 'react-router-dom';
+import Home from './components/Home';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import AddEmployee from './components/AddEmployee';
-import EmployeesList from './components/EmployeesList';
-import EditEmployee from './components/EditEmployee';
-function App() {
+import RegisterCompany from './components/RegisterCompany';
+import Admin from './components/Admin';
+import CompanyAdmin from './components/CompanyAdmin';
+
+
+const App = () => {
   return (
-      <div className="App text-Roboto h-screen overflow-hidden bg-gradient-to-tr from-neutral-700 via-gray-800 to-neutral-900">
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/register_company' element={<RegisterCompany />} />
+          <Route path='/company_admin' element={<CompanyAdmin />} />
+          <Route path='/admin' element={<Admin />} />
 
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path='/' element={<AddEmployee />} />
-            <Route path='/employee_list' element={<EmployeesList />} />
-            <Route path='/edit_employee/:id' element={<EditEmployee />} />
 
 
-
-            {/* <Route path='/loading' element={<Loading />} /> */}
-          </Routes>
-          {/* <Footer /> */}
-        </Router>
-
-      </div>
+          {/* <Route path='/loading' element={<Loading />} /> */}
+        </Routes>
+        <Footer />
+      </Router>
+      
+    </>
   )
 }
 

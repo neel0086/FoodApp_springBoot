@@ -16,11 +16,16 @@ import java.util.List;
 public class CompanyModel {
     private Long id;
     private String name;
+    private String email;
     private String address;
     private String helpLineNumber;
     private String city;
     private String state;
     private String pincode;
+    private String startTime;
+    private String endTime;
+    private String documents;
+    private String logoUrl;
 
     private List<FoodEntity> foodEntity;
 
