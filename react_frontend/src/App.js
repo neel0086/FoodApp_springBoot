@@ -17,6 +17,7 @@ import Dashboard from './components/AdminSection/Dashboard';
 import CompanyDetail from './components/AdminSection/CompanyDetail';
 import AddItem from './components/CompanyAdminSection/AddItem';
 import Login from './components/Auth/Login';
+import CategoryItem from './components/HomeSection/CategoryItem';
 
 
 const App = () => {
@@ -33,6 +34,8 @@ const App = () => {
               <Route path="add_item" element={<AddItem />} />
 
             </Route>
+            <Route path="/menu" element={<CategoryItem />} />
+            
 
             {/* <Route path='/admin' element={<Admin />} /> */}
             {/* <Route path='/admin/inbox' element={<Inbox />} /> */}

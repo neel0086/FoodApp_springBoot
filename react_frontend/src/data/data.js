@@ -134,7 +134,7 @@ export const data = [
 export const categories = [
   {
     id: 1,
-    name: 'Fast Food',
+    name: 'Burger',
     image:
       'https://duyt4h9nfnj50.cloudfront.net/new_search_home_eats_icon/FastFood_BrowseHome@3x.png',
   },
@@ -146,7 +146,7 @@ export const categories = [
   },
   {
     id: 3,
-    name: 'Wings',
+    name: 'Wraps',
     image:
       'https://duyt4h9nfnj50.cloudfront.net/new_search_home_eats_icon/Wings_BrowseHome@3x.png',
   },

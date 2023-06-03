@@ -20,14 +20,24 @@ module.exports = {
         0.7: '0.7',
         0.8: '0.8',
         0.9: '0.9'
-      }
-    },
-    extend: {
-      colors: {
-        'whitesmoke': 'whitesmoke',  // Replace with your desired color value
+      },
+      extend: {
+        fontSize: {
+          sm: '0.8rem',
+          base: '1rem',
+          xl: '1.25rem',
+          '2xl': '1.563rem',
+          '3xl': '1.953rem',
+          '4xl': '2.441rem',
+          '5xl': '3.052rem',
+        }
+      },
+      color: {
+        'whitesmoke': 'whitesmoke'  // Replace with your desired color value
       },
     },
 
   },
+
   plugins: [],
 }

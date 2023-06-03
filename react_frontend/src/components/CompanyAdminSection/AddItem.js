@@ -4,12 +4,12 @@ import FoodService from '../../services/api.js';
 function AddItem() {
     const [foodDetails, setFoodDetails] = useState(
         {
-            "id": "",
+            "id": null,
             "itemName": "",
             "category": "",
             "price": "",
             "description": "",
-            "rating": "",
+            "rating": 0,
             "discount": "",
             "foodUrl":""
         }

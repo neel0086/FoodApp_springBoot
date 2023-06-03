@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react'
 // import { data } from '../data/data.js'
 import { motion, AnimatePresence } from "framer-motion"
-import FoodService from '../services/api.js'
+import FoodService from '../../services/api.js'
 const Food = () => {
     const [foods, setFoods] = useState(null);
-    const [foodData,setFoodData] = useState(null);
-    useEffect(()=>{
-        const fetchInfo = async ()=>{
+    const [foodData, setFoodData] = useState(null);
+    useEffect(() => {
+        const fetchInfo = async () => {
             const data = await FoodService.getAllItems()
             setFoodData(data.data)
             setFoods(data.data)
             // console.log(data.data)
         }
         fetchInfo()
-    })
+    }, [])
     const filterType = (category) => {
         setFoods(
             foodData.filter((item) => {
-                return item.category === category;
+                return item.category.toLowerCase() === category.toLowerCase();
             })
         )
     }
-    const filterPrice = (price) => {
+    const filterPrice = (sprice, eprice) => {
         setFoods(
             foodData.filter((item) => {
-                return item.price === price;
+                return sprice <= item.price && item.price <= eprice;
             })
         )
     }
     // useEffect(()=>{
     //     FoodService.addItems({
     //         "name":"Garlic bread"
-            
+
     //     })
     // })
 
@@ -56,11 +56,11 @@ const Food = () => {
                 {/* Filter Price */}
                 <div>
                     <p className='font-bold text-gray-700'>Filter Price</p>
-                    <div className='flex justify-between flex-wrap max-w-[390px] w-full'>
-                        <button onClick={() => filterPrice('$')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>$</button>
-                        <button onClick={() => filterPrice('$$')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>$$</button>
-                        <button onClick={() => filterPrice('$$$')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>$$$</button>
-                        <button onClick={() => filterPrice('$$$$')} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>$$$$</button>
+                    <div className='flex  flex-wrap max-w-[395px] w-full'>
+                        <button onClick={() => filterPrice(0, 200)} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>1-200</button>
+                        <button onClick={() => filterPrice(201, 300)} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>201-300</button>
+                        <button onClick={() => filterPrice(301, 500)} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>301-500</button>
+                        <button onClick={() => filterPrice(500, 10000)} className='m-1 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white border rounded-xl px-5 py-1'>500+</button>
                     </div>
                 </div>
             </div>
@@ -79,10 +79,18 @@ const Food = () => {
                             className="border shadow-lg rounded-lg hover:scale-105 duration-500 cursor-pointer">
                             <img className='mx-auto p-2  object-cover rounded-t-lg' src={item.foodUrl} alt={item.name} />
                             <div className='flex justify-between px-2 py-4'>
-                                <p>{item.itemName}</p>
-                                <p>
-                                    <span className='bg-orange-500 text-white p-1 rounded-md'>{item.price}</span>
-                                </p>
+                                <div>
+                                    <p className="mb-2">{item.itemName}</p>
+                                    <p className='invert-0.4 w-11/12 max-h-6 text-ellipsis overflow-hidden line-clamp-2'>{item.description}</p>
+                                </div>
+                                <div>
+                                    <p className='mb-2'>
+                                        <span className='flex items-center bg-green-500 text-white py-[2px] px-[5px] rounded-md text-[15px]'>{Math.max(3,item.rating).toFixed(1)}<b className='pl-1 text-[12px]'>⭐</b></span>
+                                    </p>
+                                    <p>
+                                        <span className='text-black p-1 rounded-md'>₹{item.price}</span>
+                                    </p>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

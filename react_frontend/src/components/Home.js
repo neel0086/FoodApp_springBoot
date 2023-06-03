@@ -1,8 +1,8 @@
 import React from 'react'
-import Hero from "../components/Hero"
-import Food from "../components/Food"
-import Category from "../components/Category"
-import Card from "../components/Card"
+import Hero from "./HomeSection/Hero"
+import Food from "./HomeSection/Food"
+import Category from "./HomeSection/Category"
+import Card from "./HomeSection/Card"
 
 
 function Home() {
