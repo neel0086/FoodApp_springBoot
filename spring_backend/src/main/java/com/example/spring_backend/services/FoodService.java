@@ -18,4 +18,8 @@ public interface FoodService {
     List<CompanyRequestModel> getAllCompany();
 
     CompanyModel addVerifiedCompany(CompanyModel companyModel);
+
+
+    List<CompanyModel> getAllVerifiedCompany();
+    void increaseSales(String date);
 }

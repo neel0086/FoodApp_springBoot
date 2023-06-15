@@ -11,18 +11,22 @@ function AddItem() {
             "description": "",
             "rating": 0,
             "discount": "",
-            "foodUrl":""
+            "foodUrl": "",
+            "date": null
         }
     )
-    const [ company_Id, setCompany_Id ] = useState(null)
+    const [company_Id, setCompany_Id] = useState(null)
     const handleChange = (e) => {
         const value = e.target.value;
         setFoodDetails({ ...foodDetails, [e.target.name]: value })
     }
 
     const handleAddFoodItem = async () => {
-        console.log(company_Id)
-        FoodService.addItems(foodDetails, company_Id)
+        var dateObj = new Date();
+        var options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'numeric', year: 'numeric'};
+        var newdate = dateObj.toLocaleString('en-US', options);
+        setFoodDetails({ ...foodDetails, ["date"]: newdate })
+        FoodService.addItems({ ...foodDetails, ["date"]: newdate }, company_Id)
     }
     return (
         <div className="py-4 sm:ml-64">
@@ -115,7 +119,7 @@ function AddItem() {
                                     />
                                 </div>
 
-                                
+
                                 <div className='pb-4'>
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                                         Discount

@@ -3,12 +3,15 @@ package com.example.spring_backend.services;
 import com.example.spring_backend.entity.CompanyEntity;
 import com.example.spring_backend.entity.CompanyRequestEntity;
 import com.example.spring_backend.entity.FoodEntity;
+import com.example.spring_backend.entity.SalesEntity;
 import com.example.spring_backend.model.CompanyModel;
 import com.example.spring_backend.model.CompanyRequestModel;
 import com.example.spring_backend.model.FoodModel;
+import com.example.spring_backend.model.SalesModel;
 import com.example.spring_backend.repository.CompanyRepository;
 import com.example.spring_backend.repository.CompanyRequestRepository;
 import com.example.spring_backend.repository.FoodRepository;
+import com.example.spring_backend.repository.SalesRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +23,14 @@ public class FoodServiceImpl implements FoodService {
     private FoodRepository foodRepository;
     private CompanyRequestRepository companyRequestRepository;
     private CompanyRepository companyRepository;
+    private SalesRepository salesRepository;
 
 
-    public FoodServiceImpl(FoodRepository foodRepository,CompanyRequestRepository companyRequestRepository,CompanyRepository companyRepository) {
+    public FoodServiceImpl(FoodRepository foodRepository,CompanyRequestRepository companyRequestRepository,CompanyRepository companyRepository,SalesRepository salesRepository) {
         this.foodRepository = foodRepository;
         this.companyRequestRepository=companyRequestRepository;
         this.companyRepository=companyRepository;
+        this.salesRepository=salesRepository;
     }
 
     @Override
@@ -69,6 +74,7 @@ public class FoodServiceImpl implements FoodService {
                         emp.getRating(),
                         emp.getDiscount(),
                         emp.getFoodUrl(),
+                        emp.getDate(),
                         mapCompanyEntityToModel(emp.getCompanyEntity())
                 ))
                 .collect(Collectors.toList());
@@ -113,5 +119,40 @@ public class FoodServiceImpl implements FoodService {
         BeanUtils.copyProperties(companyModel,companyEntity);
         companyRepository.save(companyEntity);
         return companyModel;
+    }
+    @Override
+    public List<CompanyModel> getAllVerifiedCompany() {
+        List<CompanyEntity> companyEntities = companyRepository.findAll();
+        List<CompanyModel> companyModels = companyEntities
+                .stream()
+                .map(emp -> new CompanyModel(
+                        emp.getId(),
+                        emp.getName(),
+                        emp.getEmail(),
+                        emp.getAddress(),
+                        emp.getHelpLineNumber(),
+                        emp.getCity(),
+                        emp.getState(),
+                        emp.getPincode(),
+                        emp.getStartTime(),
+                        emp.getEndTime(),
+                        emp.getDocuments(),
+                        emp.getLogoUrl()))
+                .collect(Collectors.toList());
+        return companyModels;
+    }
+
+    @Override
+    public void increaseSales(String date) {
+        SalesEntity salesEntity = salesRepository.findByDate(date);
+        System.out.println(salesEntity);
+        if(salesEntity==null) {
+            salesEntity = new SalesEntity(2,date,1);
+            salesRepository.save(salesEntity);
+        }
+        else {
+            salesEntity.setNoOfSales(salesEntity.getNoOfSales()+1);
+            salesRepository.save(salesEntity);
+        }
     }
 }

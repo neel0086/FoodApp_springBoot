@@ -18,6 +18,7 @@ import CompanyDetail from './components/AdminSection/CompanyDetail';
 import AddItem from './components/CompanyAdminSection/AddItem';
 import Login from './components/Auth/Login';
 import CategoryItem from './components/HomeSection/CategoryItem';
+import Users from './components/AdminSection/Users';
 
 
 const App = () => {
@@ -41,6 +42,10 @@ const App = () => {
             {/* <Route path='/admin/inbox' element={<Inbox />} /> */}
             <Route path="admin" element={<Admin />}>
               <Route path="inbox" element={<Inbox />} />
+              <Route path="users" element={<Users />} />
+              {/* <Route path="inbox" element={<Product />} /> */}
+
+
               <Route path="inbox/:id" element={<CompanyDetail />} />
               <Route path="dashboard" element={<Dashboard />} />
             </Route>

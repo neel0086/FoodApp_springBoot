@@ -22,7 +22,7 @@ public class FoodModel {
     private Integer rating;
     private Integer discount;
     private String foodUrl;
-
+    private String Date;
     private CompanyModel companyModel;
 
 }

@@ -1,6 +1,7 @@
 package com.example.spring_backend.controller;
 
 import com.example.spring_backend.entity.CompanyEntity;
+import com.example.spring_backend.model.AdminStatsModel;
 import com.example.spring_backend.model.CompanyModel;
 import com.example.spring_backend.model.CompanyRequestModel;
 import com.example.spring_backend.model.FoodModel;
@@ -23,7 +24,7 @@ public class FoodController {
     }
     @PostMapping("/items/{id}")
     public FoodModel addItems(@PathVariable Long id,@RequestBody FoodModel foodModel){
-
+        foodService.increaseSales(foodModel.getDate());
         return foodService.addItems(foodModel,id);
     }
     @GetMapping("/items")
@@ -45,6 +46,16 @@ public class FoodController {
     @PostMapping("/company_verified")
     public CompanyModel addVerifiedCompany(@RequestBody CompanyModel companyModel){
         return foodService.addVerifiedCompany(companyModel);
+
+    }
+    @GetMapping("/company_verified")
+    public List<CompanyModel> getAllVerifiedCompany(){
+        return foodService.getAllVerifiedCompany();
+
+    }
+    @GetMapping("/get_all_admin_stats")
+    public List<AdminStatsModel> getAllAdminStats(){
+        return AdminService.getAllAdminStats;
 
     }
 //    @PutMapping("/employee/{id}")

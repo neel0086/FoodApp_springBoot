@@ -33,12 +33,28 @@ class FoodService{
             console.log("Error while calling getAllCompany API",error);
         }
     }
+    getAllVerifiedCompany = async ()=>{
+        try{
+            return (await axios.get(`${url}/company_verified`)).data
+        }
+        catch(error){
+            console.log("Error while calling getAllCompany API",error);
+        }
+    }
     addVerifiedCompany = async (cmpny)=>{
         try{
             return await axios.post(`${url}/company_verified`,cmpny)
         }
         catch(error){
             console.log("Error while calling addCompany API",error);
+        }
+    }
+    getAllAdminStats = async (cmpny)=>{
+        try{
+            return (await axios.get(`${url}/get_all_admin_stats`)).data
+        }
+        catch(error){
+            console.log("Error while calling getAllCompany API",error);
         }
     }
 }
