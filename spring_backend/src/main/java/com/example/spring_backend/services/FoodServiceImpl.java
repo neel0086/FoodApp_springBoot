@@ -4,10 +4,7 @@ import com.example.spring_backend.entity.CompanyEntity;
 import com.example.spring_backend.entity.CompanyRequestEntity;
 import com.example.spring_backend.entity.FoodEntity;
 import com.example.spring_backend.entity.SalesEntity;
-import com.example.spring_backend.model.CompanyModel;
-import com.example.spring_backend.model.CompanyRequestModel;
-import com.example.spring_backend.model.FoodModel;
-import com.example.spring_backend.model.SalesModel;
+import com.example.spring_backend.model.*;
 import com.example.spring_backend.repository.CompanyRepository;
 import com.example.spring_backend.repository.CompanyRequestRepository;
 import com.example.spring_backend.repository.FoodRepository;
@@ -57,7 +54,9 @@ public class FoodServiceImpl implements FoodService {
                 companyEntity.getStartTime(),
                 companyEntity.getEndTime(),
                 companyEntity.getDocuments(),
-                companyEntity.getLogoUrl()
+                companyEntity.getLogoUrl(),
+                companyEntity.getDate()
+
         );
     }
 //    @Override
@@ -137,7 +136,8 @@ public class FoodServiceImpl implements FoodService {
                         emp.getStartTime(),
                         emp.getEndTime(),
                         emp.getDocuments(),
-                        emp.getLogoUrl()))
+                        emp.getLogoUrl(),
+                        emp.getDate()))
                 .collect(Collectors.toList());
         return companyModels;
     }
@@ -147,12 +147,42 @@ public class FoodServiceImpl implements FoodService {
         SalesEntity salesEntity = salesRepository.findByDate(date);
         System.out.println(salesEntity);
         if(salesEntity==null) {
-            salesEntity = new SalesEntity(2,date,1);
+            salesEntity = new SalesEntity(2,date,1,0);
             salesRepository.save(salesEntity);
         }
         else {
             salesEntity.setNoOfSales(salesEntity.getNoOfSales()+1);
             salesRepository.save(salesEntity);
         }
+    }
+    @Override
+    public void increaseCompany(String date) {
+        SalesEntity salesEntity = salesRepository.findByDate(date);
+        System.out.println(salesEntity);
+        if(salesEntity==null) {
+            salesEntity = new SalesEntity(2,date,0,1);
+            salesRepository.save(salesEntity);
+        }
+        else {
+            salesEntity.setNoOfCompany(salesEntity.getNoOfCompany()+1);
+            salesRepository.save(salesEntity);
+        }
+    }
+    @Override
+    public AdminStatsModel getAllAdminStats(String date) {
+        List<SalesEntity> salesEntity = salesRepository.findAll();
+        List<SalesModel> salesModel = salesEntity
+                .stream()
+                .map(sale -> new SalesModel(
+                        sale.getId(),
+                        sale.getDate(),
+                        sale.getNoOfSales(),
+                        sale.getNoOfCompany()
+                        ))
+                .collect(Collectors.toList());
+        BeanUtils.copyProperties(salesEntity,salesModel);
+        AdminStatsModel adminStatsModel = new AdminStatsModel(salesModel);
+
+        return adminStatsModel;
     }
 }

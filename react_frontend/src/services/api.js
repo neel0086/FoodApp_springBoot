@@ -49,12 +49,12 @@ class FoodService{
             console.log("Error while calling addCompany API",error);
         }
     }
-    getAllAdminStats = async (cmpny)=>{
+    getAllAdminStats = async (date)=>{
         try{
-            return (await axios.get(`${url}/get_all_admin_stats`)).data
+            return (await axios.post(`${url}/get_all_admin_stats`,{"date":date})).data
         }
         catch(error){
-            console.log("Error while calling getAllCompany API",error);
+            console.log("Error while calling getAllAdminStats API",error);
         }
     }
 }

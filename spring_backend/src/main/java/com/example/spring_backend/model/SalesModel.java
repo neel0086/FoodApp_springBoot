@@ -11,4 +11,5 @@ public class SalesModel {
     private int id;
     private String date;
     private int noOfSales;
+    private int noOfCompany;
 }

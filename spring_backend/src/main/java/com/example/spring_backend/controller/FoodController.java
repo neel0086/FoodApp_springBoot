@@ -1,16 +1,15 @@
 package com.example.spring_backend.controller;
 
-import com.example.spring_backend.entity.CompanyEntity;
 import com.example.spring_backend.model.AdminStatsModel;
 import com.example.spring_backend.model.CompanyModel;
 import com.example.spring_backend.model.CompanyRequestModel;
 import com.example.spring_backend.model.FoodModel;
 import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("api/v1")
 @CrossOrigin
@@ -18,8 +17,10 @@ import java.util.List;
 public class FoodController {
     @Autowired
     private final FoodService foodService;
+    @Autowired
 
-    public FoodController(FoodService foodService) {
+    public FoodController(FoodService foodService)
+    {
         this.foodService = foodService;
     }
     @PostMapping("/items/{id}")
@@ -34,6 +35,7 @@ public class FoodController {
 
     @PostMapping("/company")
     public CompanyRequestModel addCompany(@RequestBody CompanyRequestModel companyRequestModel){
+
         return foodService.addCompany(companyRequestModel);
 
     }
@@ -45,6 +47,8 @@ public class FoodController {
 
     @PostMapping("/company_verified")
     public CompanyModel addVerifiedCompany(@RequestBody CompanyModel companyModel){
+        foodService.increaseCompany(companyModel.getDate());
+
         return foodService.addVerifiedCompany(companyModel);
 
     }
@@ -53,9 +57,10 @@ public class FoodController {
         return foodService.getAllVerifiedCompany();
 
     }
-    @GetMapping("/get_all_admin_stats")
-    public List<AdminStatsModel> getAllAdminStats(){
-        return AdminService.getAllAdminStats;
+    @PostMapping("/get_all_admin_stats")
+    public AdminStatsModel getAllAdminStats(@RequestBody Map<String, String> date){
+        System.out.println(date.get("date"));
+        return foodService.getAllAdminStats((String)date.get("date"));
 
     }
 //    @PutMapping("/employee/{id}")

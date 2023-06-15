@@ -11,8 +11,8 @@ function StatusCard({heading,amount,percent}) {
                             <div>
                                 <p class="mb-0 font-sans font-semibold leading-normal text-sm">{heading}</p>
                                 <h5 class="mb-0 font-bold">
-                                    ${amount}
-                                    <span class="leading-normal text-sm font-weight-bolder text-lime-500">+{percent}</span>
+                                    {amount}
+                                    <span class="leading-normal text-md font-weight-bolder text-lime-500"> {percent[0]=='-' ? percent : "+"+percent}</span>
                                 </h5>
                             </div>
                         </div>

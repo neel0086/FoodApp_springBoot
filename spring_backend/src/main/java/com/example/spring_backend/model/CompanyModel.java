@@ -22,6 +22,7 @@ public class CompanyModel {
     private String endTime;
     private String documents;
     private String logoUrl;
+    private String date;
 
 
 

@@ -29,6 +29,7 @@ public class CompanyEntity {
     private String endTime;
     private String documents;
     private String logoUrl;
+    private String date;
     @OneToMany(mappedBy = "companyEntity", cascade = CascadeType.ALL)
     private List<FoodEntity> foodEntity;
 

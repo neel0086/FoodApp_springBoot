@@ -1,6 +1,7 @@
 package com.example.spring_backend.services;
 
 import com.example.spring_backend.entity.CompanyEntity;
+import com.example.spring_backend.model.AdminStatsModel;
 import com.example.spring_backend.model.CompanyModel;
 import com.example.spring_backend.model.CompanyRequestModel;
 import com.example.spring_backend.model.FoodModel;
@@ -22,4 +23,8 @@ public interface FoodService {
 
     List<CompanyModel> getAllVerifiedCompany();
     void increaseSales(String date);
+    void increaseCompany(String date);
+
+    AdminStatsModel getAllAdminStats(String date);
+
 }

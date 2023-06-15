@@ -19,4 +19,5 @@ public class SalesEntity {
     private int id;
     private String date;
     private int noOfSales;
+    private int noOfCompany;
 }
