@@ -28,7 +28,7 @@ public class UserEntity implements UserDetails {
     private String email;
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name="user_role",joinColumns=@JoinColumn(name="user",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="role",referencedColumnName = "id"))
     private List<RoleEntity> roles=new ArrayList<>();

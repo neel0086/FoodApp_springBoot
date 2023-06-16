@@ -1,4 +1,4 @@
-package com.example.spring_backend.security;
+package com.example.spring_backend.payloads;
 
 import lombok.Data;
 
