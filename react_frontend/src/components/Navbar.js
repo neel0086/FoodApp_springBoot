@@ -27,7 +27,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav  className=" fixed  w-screen text-black bg-white py-3">
+        <nav  className=" fixed  w-screen text-black bg-white z-50 py-3">
             <div className="flex items-center justify-between  px-10">
                 <div className="flex justify-between w-full space-x-10 align-center">
                     <Link to="/" className="flex align-items justify-center gap-2 text-2xl font-serif text-black text-xl leading-9  items-center sm:flex ">
