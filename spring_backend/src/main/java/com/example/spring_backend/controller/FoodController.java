@@ -1,9 +1,6 @@
 package com.example.spring_backend.controller;
 
-import com.example.spring_backend.model.AdminStatsModel;
-import com.example.spring_backend.model.CompanyModel;
-import com.example.spring_backend.model.CompanyRequestModel;
-import com.example.spring_backend.model.FoodModel;
+import com.example.spring_backend.model.*;
 import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,11 +60,9 @@ public class FoodController {
         return foodService.getAllAdminStats((String)date.get("date"));
 
     }
-//    @PutMapping("/employee/{id}")
-//    public ResponseEntity<FoodModel> editEmployee(@PathVariable Long id , @RequestBody FoodModel foodModel){
-//        foodModel = foodService.editEmployee(id, foodModel);
-//        return ResponseEntity.ok(foodModel);
-//    }
 
-
+    @PostMapping("/add_user")
+    public void addUser(@RequestBody UserModel userModel) {
+        foodService.addUser(userModel);
+    }
 }

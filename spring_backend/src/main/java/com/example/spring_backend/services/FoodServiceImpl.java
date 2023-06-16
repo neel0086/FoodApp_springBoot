@@ -1,17 +1,12 @@
 package com.example.spring_backend.services;
 
-import com.example.spring_backend.entity.CompanyEntity;
-import com.example.spring_backend.entity.CompanyRequestEntity;
-import com.example.spring_backend.entity.FoodEntity;
-import com.example.spring_backend.entity.SalesEntity;
+import com.example.spring_backend.entity.*;
 import com.example.spring_backend.model.*;
-import com.example.spring_backend.repository.CompanyRepository;
-import com.example.spring_backend.repository.CompanyRequestRepository;
-import com.example.spring_backend.repository.FoodRepository;
-import com.example.spring_backend.repository.SalesRepository;
+import com.example.spring_backend.repository.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,13 +16,32 @@ public class FoodServiceImpl implements FoodService {
     private CompanyRequestRepository companyRequestRepository;
     private CompanyRepository companyRepository;
     private SalesRepository salesRepository;
+    private RoleRepository roleRepository;
 
+    private UserRepository userRepository;
 
-    public FoodServiceImpl(FoodRepository foodRepository,CompanyRequestRepository companyRequestRepository,CompanyRepository companyRepository,SalesRepository salesRepository) {
+    public FoodServiceImpl(RoleRepository roleRepository,UserRepository userRepository,FoodRepository foodRepository,CompanyRequestRepository companyRequestRepository,CompanyRepository companyRepository,SalesRepository salesRepository) {
+        this.userRepository=userRepository;
+        this.roleRepository=roleRepository;
         this.foodRepository = foodRepository;
         this.companyRequestRepository=companyRequestRepository;
         this.companyRepository=companyRepository;
         this.salesRepository=salesRepository;
+    }
+
+    @Override
+    public void addUser(UserModel userModel) {
+        UserEntity userEntity = new UserEntity();
+        List<RoleModel> roles = userModel.getRoles();
+        List<RoleEntity> user_role = new ArrayList<>();
+        BeanUtils.copyProperties(userModel, userEntity);
+        for(RoleModel r :roles){
+            user_role.add(roleRepository.findById(r.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Role not found for ID: " + r.getId())));
+        }
+        System.out.println(user_role);
+        userEntity.setRoles(user_role);
+        userRepository.save(userEntity);
     }
 
     @Override

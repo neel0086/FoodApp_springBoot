@@ -19,6 +19,7 @@ import AddItem from './components/CompanyAdminSection/AddItem';
 import Login from './components/Auth/Login';
 import CategoryItem from './components/HomeSection/CategoryItem';
 import Users from './components/AdminSection/Users';
+import Register from './components/Auth/Register';
 
 
 const App = () => {
@@ -31,6 +32,8 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/register_company' element={<RegisterCompany />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+
             <Route path='/company_admin' element={<CompanyAdmin />} >
               <Route path="add_item" element={<AddItem />} />
 

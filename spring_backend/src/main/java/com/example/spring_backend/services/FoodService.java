@@ -1,15 +1,14 @@
 package com.example.spring_backend.services;
 
 import com.example.spring_backend.entity.CompanyEntity;
-import com.example.spring_backend.model.AdminStatsModel;
-import com.example.spring_backend.model.CompanyModel;
-import com.example.spring_backend.model.CompanyRequestModel;
-import com.example.spring_backend.model.FoodModel;
+import com.example.spring_backend.model.*;
 
 import java.util.List;
 
 public interface FoodService {
-    FoodModel addItems(FoodModel foodModel,Long companyId);
+    void addUser(UserModel userModel);
+
+    FoodModel addItems(FoodModel foodModel, Long companyId);
 
     List<FoodModel> getAllItems();
 

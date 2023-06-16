@@ -2,6 +2,22 @@ import axios from 'axios'
 const url = "http://localhost:8080/api/v1"
 
 class FoodService{
+    addUser = async (user)=>{
+        try{
+            return await axios.post(`${url}/add_user`,user)
+        }
+        catch(error){
+            console.log("Error while calling addItems API",error);
+        }
+    }
+    checkUser = async (user)=>{
+        try{
+            return await axios.post(`${url}/add_user`,user)
+        }
+        catch(error){
+            console.log("Error while calling addItems API",error);
+        }
+    }
     getAllItems = async()=>{
         try {
             return await axios.get(`${url}/items` );
