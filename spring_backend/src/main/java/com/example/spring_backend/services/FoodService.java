@@ -3,6 +3,7 @@ package com.example.spring_backend.services;
 import com.example.spring_backend.entity.CompanyEntity;
 import com.example.spring_backend.entity.RoleEntity;
 import com.example.spring_backend.model.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 

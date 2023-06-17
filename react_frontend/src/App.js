@@ -24,17 +24,25 @@ import FoodService from './services/api.js'
 
 
 const App = () => {
-  const { userProvider, setUserProvider } = useContext(UserContext);
-  const [roleAdmin,setRoleAdmin] = useState(false)
+  const { userRole, setUserRole } = useContext(UserContext);
+  const [roleAdmin, setRoleAdmin] = useState(false)
   useEffect(() => {
     const checkUser = async () => {
 
 
       const role = await FoodService.getUserRole()
-      setRoleAdmin(role)
+      setUserRole(role)
+      Array.from(userRole).forEach((r, idx) => {
+        console.log(r)
+
+        if (r == "ROLE_ADMIN") {
+          setRoleAdmin(true)
+          return 0;
+        }
+      })
     }
     checkUser()
-  }, [userProvider])
+  }, [])
   return (
 
     <>

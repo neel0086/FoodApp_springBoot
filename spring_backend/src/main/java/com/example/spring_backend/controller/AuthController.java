@@ -9,13 +9,16 @@ import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -65,9 +68,18 @@ public class AuthController {
         return foodService.addUser(userModel);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin")
-    public Boolean checkAdmin() {
-        return true;
+    public List<String> checkAdmin(Authentication authentication) {
+        List<String> roles = new ArrayList<>();
+
+        // Get the user's authorities (roles)
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        // Extract role names
+        for (GrantedAuthority authority : authorities) {
+            roles.add(authority.getAuthority());
+        }
+        System.out.println(roles);
+        return roles;
     }
 }

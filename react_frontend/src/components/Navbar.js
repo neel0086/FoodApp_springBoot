@@ -9,7 +9,7 @@ import FoodService from "../services/api.js"
 
 
 const Navbar = () => {
-    const { userProvider, setUserProvider } = useContext(UserContext);
+    const { userRole, setUserRole } = useContext(UserContext);
 
     const [isOpen, setIsOpen] = useState(false);
     const [boxDataOpen, setBoxDataOpen] = useState(false);
@@ -20,20 +20,29 @@ const Navbar = () => {
     });
 
     const [roleAdmin, setRoleAdmin] = useState(false)
+    const [userLogged, setUserLogged] = useState(false)
     useEffect(() => {
-        const checkUser = async () => {
-
-
-            const role = await FoodService.getUserRole()
-            setRoleAdmin(role)
+        // console.log(userRole)
+        if(userRole!=null && userRole.length>0){
+            setUserLogged(true)
         }
-        checkUser()
-    }, [userProvider])
+        
+        Array.from(userRole).forEach((r,idx)=> {
+            console.log(r)
 
-    useEffect(() => {
-        // getAdminPage()
-    }, [userProvider])
+            if (r == "ROLE_ADMIN") {
+                setRoleAdmin(true)
+                return 0;
+            }
+        })
+    }, [userRole])
 
+    const handleLogout = ()=>{
+        localStorage.setItem("token","")
+        setUserRole([])
+        setRoleAdmin(false)
+        setUserLogged(false)
+    }
     return (
         <nav className=" fixed  w-screen text-black bg-white z-50 py-3">
             <div className="flex items-center justify-between  px-10">
@@ -57,9 +66,15 @@ const Navbar = () => {
                         <li onClick={() => setNavOpen("register_company")} className={`${"register_company" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
                             <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/register_company'>Register Company</Link>
                         </li>
-                        <li onClick={() => setNavOpen("login")} className={`${"login" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
-                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/login'>Login</Link>
-                        </li>
+                        {!userLogged ?
+                            <li onClick={() => setNavOpen("login")} className={`${"login" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                                <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/login'>Login</Link>
+                            </li>
+                            :
+                            <li onClick={handleLogout} className={`${"logout" == navOpen ? "bg-blue-800 text-white" : "none"} cursor-pointer  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                                <span className='mx-1 px-2 font-serif  text-xl leading-9'>Logout</span>
+                            </li>
+                        }
                     </ul>
 
 

@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 
 export const UserContext = React.createContext()
 function UserProvider({children}) {
-  const [userProvider,setUserProvider] = useState(false)
+  const [userRole,setUserRole] = useState({})
   return (
     <UserContext.Provider value={{
-      userProvider,
-      setUserProvider,
+      userRole,
+      setUserRole,
     }}>
       {children}
     </UserContext.Provider>

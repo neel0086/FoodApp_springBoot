@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
-  const { userProvider, setUserProvider } = useContext(UserContext);
+  const { userRole, setUserRole} = useContext(UserContext);
   const [user, setUser] = useState({
     "username": "",
     "password": "",
@@ -22,7 +22,7 @@ const navigate = useNavigate()
     var data = await FoodService.checkUser(user);
     if(data.data.token!=null && data.data.token.length>4){
       localStorage.setItem("token",data.data.token);
-      setUserProvider(!userProvider)  
+      setUserRole(await FoodService.getUserRole())  
       navigate("/")
     }
     else{

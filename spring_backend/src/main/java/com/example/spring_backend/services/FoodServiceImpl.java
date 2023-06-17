@@ -4,10 +4,13 @@ import com.example.spring_backend.entity.*;
 import com.example.spring_backend.model.*;
 import com.example.spring_backend.repository.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -227,5 +230,6 @@ public class FoodServiceImpl implements FoodService {
 
         return adminStatsModel;
     }
+
 
 }
