@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import {
   BrowserRouter as Router,
@@ -10,9 +10,7 @@ import Navbar from './components/Navbar';
 import RegisterCompany from './components/RegisterCompany';
 import Admin from './components/AdminSection/Admin';
 import CompanyAdmin from './components/CompanyAdminSection/CompanyAdmin';
-import SidebarProvider from './provider/SidebarProvider';
 import Inbox from './components/AdminSection/Inbox';
-import Sidebar from './components/Sidebar';
 import Dashboard from './components/AdminSection/Dashboard';
 import CompanyDetail from './components/AdminSection/CompanyDetail';
 import AddItem from './components/CompanyAdminSection/AddItem';
@@ -20,29 +18,44 @@ import Login from './components/Auth/Login';
 import CategoryItem from './components/HomeSection/CategoryItem';
 import Users from './components/AdminSection/Users';
 import Register from './components/Auth/Register';
+import { UserContext } from './provider/UserProvider';
+import FoodService from './services/api.js'
+
 
 
 const App = () => {
+  const { userProvider, setUserProvider } = useContext(UserContext);
+  const [roleAdmin,setRoleAdmin] = useState(false)
+  useEffect(() => {
+    const checkUser = async () => {
+
+
+      const role = await FoodService.getUserRole()
+      setRoleAdmin(role)
+    }
+    checkUser()
+  }, [userProvider])
   return (
-    <SidebarProvider>
-      <>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/register_company' element={<RegisterCompany />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
 
-            <Route path='/company_admin' element={<CompanyAdmin />} >
-              <Route path="add_item" element={<AddItem />} />
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/register_company' element={<RegisterCompany />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
 
-            </Route>
-            <Route path="/menu" element={<CategoryItem />} />
-            
+          <Route path='/company_admin' element={<CompanyAdmin />} >
+            <Route path="add_item" element={<AddItem />} />
 
-            {/* <Route path='/admin' element={<Admin />} /> */}
-            {/* <Route path='/admin/inbox' element={<Inbox />} /> */}
+          </Route>
+          <Route path="/menu" element={<CategoryItem />} />
+
+
+          {/* <Route path='/admin' element={<Admin />} /> */}
+          {/* <Route path='/admin/inbox' element={<Inbox />} /> */}
+          {roleAdmin ?
             <Route path="admin" element={<Admin />}>
               <Route path="inbox" element={<Inbox />} />
               <Route path="users" element={<Users />} />
@@ -51,16 +64,15 @@ const App = () => {
 
               <Route path="inbox/:id" element={<CompanyDetail />} />
               <Route path="dashboard" element={<Dashboard />} />
-            </Route>
+            </Route> : " "
+          }
 
+          {/* <Route path='/loading' element={<Loading />} /> */}
+        </Routes>
+        <Footer />
+      </Router>
 
-            {/* <Route path='/loading' element={<Loading />} /> */}
-          </Routes>
-          <Footer />
-        </Router>
-
-      </>
-    </SidebarProvider>
+    </>
 
   )
 }

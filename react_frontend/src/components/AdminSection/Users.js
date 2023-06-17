@@ -8,7 +8,6 @@ function Users() {
     const [selectedCompany, setSelectedCompany] = useState(false);
 
     useEffect(() => {
-        console.log("Hello ")
         const fetchInfo = async () => {
             const data = await FoodService.getAllVerifiedCompany();
             setVerifiedCompany(data);

@@ -1,5 +1,6 @@
 package com.example.spring_backend.controller;
 
+import com.example.spring_backend.entity.RoleEntity;
 import com.example.spring_backend.model.UserModel;
 import com.example.spring_backend.payloads.JwtAuthRequest;
 import com.example.spring_backend.payloads.JwtAuthResponse;
@@ -8,11 +9,14 @@ import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
@@ -59,5 +63,11 @@ public class AuthController {
     @PostMapping("/add_user")
     public Boolean addUser(@RequestBody UserModel userModel) {
         return foodService.addUser(userModel);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin")
+    public Boolean checkAdmin() {
+        return true;
     }
 }

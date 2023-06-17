@@ -37,6 +37,8 @@ public class FoodController {
         return foodService.addCompany(companyRequestModel);
 
     }
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping("/company")
     public List<CompanyRequestModel> getAllCompany(){
         return foodService.getAllCompany();
@@ -50,12 +52,14 @@ public class FoodController {
         return foodService.addVerifiedCompany(companyModel);
 
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/company_verified")
     public List<CompanyModel> getAllVerifiedCompany(){
         return foodService.getAllVerifiedCompany();
 
     }
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PostMapping("/get_all_admin_stats")
     public AdminStatsModel getAllAdminStats(@RequestBody Map<String, String> date){
         System.out.println(date.get("date"));

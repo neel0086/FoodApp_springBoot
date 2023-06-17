@@ -1,28 +1,41 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import { Transition } from '@headlessui/react';
 import { HiOutlineX, HiMenuAlt3 } from 'react-icons/hi'
 import logo from "../assets/logo.png";
-
+import { UserContext } from '../provider/UserProvider';
+import FoodService from "../services/api.js"
 
 
 
 const Navbar = () => {
-    const closeWindow = () => {
-        window.close();
-    };
+    const { userProvider, setUserProvider } = useContext(UserContext);
+
     const [isOpen, setIsOpen] = useState(false);
     const [boxDataOpen, setBoxDataOpen] = useState(false);
-    const [navOpen,setNavOpen] = useState("")
+    const [navOpen, setNavOpen] = useState("")
     const [selectedColor, setSelectedColor] = useState(() => {
         // Retrieve the color from local storage, or use a default value
         return localStorage.getItem('selectedColor') || '#2C2C2A';
-      });
+    });
 
-    
+    const [roleAdmin, setRoleAdmin] = useState(false)
+    useEffect(() => {
+        const checkUser = async () => {
+
+
+            const role = await FoodService.getUserRole()
+            setRoleAdmin(role)
+        }
+        checkUser()
+    }, [userProvider])
+
+    useEffect(() => {
+        // getAdminPage()
+    }, [userProvider])
 
     return (
-        <nav  className=" fixed  w-screen text-black bg-white z-50 py-3">
+        <nav className=" fixed  w-screen text-black bg-white z-50 py-3">
             <div className="flex items-center justify-between  px-10">
                 <div className="flex justify-between w-full space-x-10 align-center">
                     <Link to="/" className="flex align-items justify-center gap-2 text-2xl font-serif text-black text-xl leading-9  items-center sm:flex ">
@@ -30,19 +43,21 @@ const Navbar = () => {
                         <span><h1 className='font-bold text-3xl sm:text-4xl lg:text-4xl '>Eatify</h1></span>
                     </Link>
                     <ul className="hidden  items-center md:flex text-lg tracking-widest ">
-                        <li onClick={()=>setNavOpen("Home")} className={`${"Home"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                        <li onClick={() => setNavOpen("Home")} className={`${"Home" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
                             <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/'>Home</Link>
                         </li>
-                        <li onClick={()=>setNavOpen("Admin")} className={`${"Admin"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
-                            <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/admin'>Admin</Link>
-                        </li>
-                        <li onClick={()=>setNavOpen("company_admin")} className={`${"company_admin"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                        {roleAdmin ?
+                            <li onClick={() => setNavOpen("Admin")} className={`${"Admin" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                                <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/admin'>Admin</Link>
+                            </li> : ""
+                        }
+                        <li onClick={() => setNavOpen("company_admin")} className={`${"company_admin" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
                             <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/company_admin'>Company Admin</Link>
                         </li>
-                        <li onClick={()=>setNavOpen("register_company")} className={`${"register_company"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                        <li onClick={() => setNavOpen("register_company")} className={`${"register_company" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
                             <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/register_company'>Register Company</Link>
                         </li>
-                        <li onClick={()=>setNavOpen("login")} className={`${"login"==navOpen ? "bg-blue-800 text-white":"none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
+                        <li onClick={() => setNavOpen("login")} className={`${"login" == navOpen ? "bg-blue-800 text-white" : "none"}  px-1  mr-2 hover:bg-blue-900 hover:text-white rounded-lg`}>
                             <Link className='mx-1 px-2 font-serif  text-xl leading-9' to='/login'>Login</Link>
                         </li>
                     </ul>

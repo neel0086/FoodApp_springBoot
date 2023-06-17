@@ -3,6 +3,7 @@ import com.example.spring_backend.security.CustomUserDetailService;
 import com.example.spring_backend.security.JwtAuthenticationEntryPoint;
 import com.example.spring_backend.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import javax.servlet.Filter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -61,5 +68,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public FilterRegistrationBean platformCorsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        CorsConfiguration configAutenticacao = new CorsConfiguration();
+        configAutenticacao.setAllowCredentials(true);
+        configAutenticacao.addAllowedOriginPattern("*");
+        configAutenticacao.addAllowedHeader("Authorization");
+        configAutenticacao.addAllowedHeader("Content-Type");
+        configAutenticacao.addAllowedHeader("Accept");
+        configAutenticacao.addAllowedMethod("POST");
+        configAutenticacao.addAllowedMethod("GET");
+        configAutenticacao.addAllowedMethod("DELETE");
+        configAutenticacao.addAllowedMethod("PUT");
+        configAutenticacao.addAllowedMethod("OPTIONS");
+        configAutenticacao.setMaxAge(3600L);
+        source.registerCorsConfiguration("/**", configAutenticacao);
+
+        FilterRegistrationBean bean = new FilterRegistrationBean<>(new CorsFilter(source));
+        bean.setOrder(-110);
+        return bean;
     }
 }
