@@ -50,7 +50,7 @@ public class FoodController {
         return foodService.addVerifiedCompany(companyModel);
 
     }
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/company_verified")
     public List<CompanyModel> getAllVerifiedCompany(){
         return foodService.getAllVerifiedCompany();

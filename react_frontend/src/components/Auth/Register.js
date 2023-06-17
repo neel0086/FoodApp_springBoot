@@ -7,7 +7,7 @@ function Register() {
     "name": "",
     "email": "",
     "password": "",
-    "roles":[{ id: 2, name: 'admin' }]
+    "roles":[{ id: 1, name: 'user' }]
   })
 
   const handleChange = (e) => {
@@ -21,7 +21,7 @@ function Register() {
       "name": "",
       "email": "",
       "password": "",
-      "roles":[{ id: 2, name: 'admin' }]
+      "roles":[{ id: 1, name: 'user' }]
 
     })
   }
