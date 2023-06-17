@@ -6,7 +6,7 @@ import com.example.spring_backend.model.*;
 import java.util.List;
 
 public interface FoodService {
-    void addUser(UserModel userModel);
+    Boolean addUser(UserModel userModel);
 
     FoodModel addItems(FoodModel foodModel, Long companyId);
 

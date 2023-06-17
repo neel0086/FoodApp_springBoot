@@ -4,7 +4,7 @@ const url = "http://localhost:8080/api/v1"
 class FoodService{
     addUser = async (user)=>{
         try{
-            return await axios.post(`${url}/add_user`,user)
+            return await axios.post(`${url}/auth/add_user`,user)
         }
         catch(error){
             console.log("Error while calling addItems API",error);
@@ -12,7 +12,7 @@ class FoodService{
     }
     checkUser = async (user)=>{
         try{
-            return await axios.post(`${url}/add_user`,user)
+            return await axios.post(`${url}/auth/login`,user)
         }
         catch(error){
             console.log("Error while calling addItems API",error);

@@ -3,6 +3,7 @@ package com.example.spring_backend.controller;
 import com.example.spring_backend.model.*;
 import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class FoodController {
         return foodService.addVerifiedCompany(companyModel);
 
     }
+//    @PreAuthorize("hasRole('admin')")
     @GetMapping("/company_verified")
     public List<CompanyModel> getAllVerifiedCompany(){
         return foodService.getAllVerifiedCompany();
@@ -61,8 +63,5 @@ public class FoodController {
 
     }
 
-    @PostMapping("/add_user")
-    public void addUser(@RequestBody UserModel userModel) {
-        foodService.addUser(userModel);
-    }
+
 }

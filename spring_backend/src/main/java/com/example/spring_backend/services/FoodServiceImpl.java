@@ -4,10 +4,12 @@ import com.example.spring_backend.entity.*;
 import com.example.spring_backend.model.*;
 import com.example.spring_backend.repository.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,18 +32,44 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void addUser(UserModel userModel) {
-        UserEntity userEntity = new UserEntity();
-        List<RoleModel> roles = userModel.getRoles();
-        List<RoleEntity> user_role = new ArrayList<>();
-        BeanUtils.copyProperties(userModel, userEntity);
-        for(RoleModel r :roles){
-            user_role.add(roleRepository.findById(r.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Role not found for ID: " + r.getId())));
+    public Boolean addUser(UserModel userModel) {
+        UserEntity userEntity=null;
+        try {
+            userEntity = userRepository.findByEmail(userModel.getEmail())
+                    .orElseThrow(() -> new NoSuchElementException("User not found"));
+            for(RoleEntity role:userEntity.getRoles()){
+                if(role.getName()==userModel.getRoles().get(0).getName()){
+                    return false;
+                }
+            }
+            List<RoleEntity> existingRoles = userEntity.getRoles();
+            System.out.println(userModel.getRoles().get(0).getId());
+            System.out.println(userEntity.getRoles());
+
+            existingRoles.add(roleRepository.findById(userModel.getRoles().get(0).getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Role not found for ID: ")));
+            userEntity.setRoles(existingRoles);
+            userRepository.save(userEntity);
+            return true;
         }
-        System.out.println(user_role);
-        userEntity.setRoles(user_role);
-        userRepository.save(userEntity);
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+            userEntity = new UserEntity();
+            List<RoleModel> roles = userModel.getRoles();
+            List<RoleEntity> user_role = new ArrayList<>();
+            BeanUtils.copyProperties(userModel, userEntity);
+            for(RoleModel r :roles){
+                user_role.add(roleRepository.findById(r.getId())
+                        .orElseThrow(() -> new IllegalArgumentException("Role not found for ID: " + r.getId())));
+            }
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            userEntity.setRoles(user_role);
+            userRepository.save(userEntity);
+            return true;
+
+        }
+
     }
 
     @Override

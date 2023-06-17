@@ -19,12 +19,7 @@ const Navbar = () => {
         return localStorage.getItem('selectedColor') || '#2C2C2A';
       });
 
-    const handleColorChange = (event) => {
-        const color = event.target.value;
-        setSelectedColor(color);
-        localStorage.setItem('selectedColor', color);
-        console.log(color)
-    };
+    
 
     return (
         <nav  className=" fixed  w-screen text-black bg-white z-50 py-3">

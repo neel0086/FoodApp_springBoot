@@ -1,8 +1,10 @@
 package com.example.spring_backend.controller;
 
+import com.example.spring_backend.model.UserModel;
 import com.example.spring_backend.payloads.JwtAuthRequest;
 import com.example.spring_backend.payloads.JwtAuthResponse;
 import com.example.spring_backend.security.JwtTokenHelper;
+import com.example.spring_backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +12,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
+@CrossOrigin
 public class AuthController {
 
     @Autowired
@@ -27,6 +27,13 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private final FoodService foodService;
+    public AuthController(FoodService foodService)
+    {
+        this.foodService = foodService;
+    }
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request){
         this.authenticate(request.getUsername(),request.getPassword());
@@ -47,5 +54,10 @@ public class AuthController {
             System.out.println(e.getCause());
 
         }
+    }
+
+    @PostMapping("/add_user")
+    public Boolean addUser(@RequestBody UserModel userModel) {
+        return foodService.addUser(userModel);
     }
 }
