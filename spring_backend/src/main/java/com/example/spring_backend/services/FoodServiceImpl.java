@@ -5,13 +5,12 @@ import com.example.spring_backend.model.*;
 import com.example.spring_backend.repository.*;
 import com.example.spring_backend.verification.VerificationRepository;
 import com.example.spring_backend.verification.VerificationToken;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,8 +44,10 @@ public class FoodServiceImpl implements FoodService {
         System.out.println(otp);
         VerificationToken verificationToken = verificationRepository.findByEmail(userModel.getEmail())
                 .orElseThrow(() -> new NoSuchElementException("Otp expired"));
-        Integer generatedOtp = verificationToken.getOtp();
-        System.out.println(generatedOtp);
+        int generatedOtp = verificationToken.getOtp();
+        if(generatedOtp!=otp) {
+            return false;
+        }
         UserEntity userEntity=null;
         try {
             userEntity = userRepository.findByEmail(userModel.getEmail())
@@ -242,6 +243,39 @@ public class FoodServiceImpl implements FoodService {
         return adminStatsModel;
     }
 
+    public void sendVerificationEmail(String recipientEmail, int otp) {
+        String host = "smtp.gmail.com";
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth",true);
+        properties.put("mail.smtp.starttls.enable",true);
+        properties.put("mail.smtp.port","587");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+
+
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("eatifybot@gmail.com","plmeqaqppupuseaj");
+            }
+        });
+
+        session.setDebug(true);
+        Message m = new MimeMessage(session);
+        try{
+            m.setFrom(new InternetAddress("eatifybot@gmail.com"));
+            m.setRecipient(Message.RecipientType.TO,new InternetAddress("neelmehta0086@gmail.com"));
+            m.setSubject("Welcome to eatify");
+            m.setText("Hello your otp is:");
+            Transport.send(m);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
     @Override
     public void getOtp(UserModel userModel) {
         Random random = new Random();
@@ -250,8 +284,11 @@ public class FoodServiceImpl implements FoodService {
         int min = (int) Math.pow(10, 4);
         int max = (int) Math.pow(10, 5) - 1;
 
+
         // Generate a random number within the defined range
         int otpValue = random.nextInt(max - min + 1) + min;
+        sendVerificationEmail(userModel.getEmail(),otpValue);
+
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setEmail(userModel.getEmail());
         verificationToken.setOtp(otpValue);
