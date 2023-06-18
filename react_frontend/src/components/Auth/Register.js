@@ -16,7 +16,11 @@ function Register() {
   }
 
   const handleRegister = async () => {
-    FoodService.addUser(user);
+    // const data = FoodService.getOtp(user);
+    // console.log(data)
+
+    FoodService.addUser({userModel:user,otp:123});
+    console.log(user)
     setUser({
       "name": "",
       "email": "",

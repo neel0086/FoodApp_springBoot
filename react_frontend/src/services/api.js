@@ -5,12 +5,20 @@ const checkHeaders = () => {
     return localStorage.getItem("token");
 }
 class FoodService {
-    addUser = async (user) => {
+    addUser = async (userotp) => {
         try {
-            return await axios.post(`${url}/auth/add_user`, user)
+            return await axios.post(`${url}/auth/add_user`,userotp)
         }
         catch (error) {
             console.log("Error while calling addItems API", error);
+        }
+    }
+    getOtp = async (user) =>{
+        try {
+             await axios.post(`${url}/auth/get_otp`,user)
+        }
+        catch (error) {
+            return false
         }
     }
     checkUser = async (user) => {

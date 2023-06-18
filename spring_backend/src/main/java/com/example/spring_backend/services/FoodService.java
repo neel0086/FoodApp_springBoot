@@ -8,7 +8,9 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 
 public interface FoodService {
-    Boolean addUser(UserModel userModel);
+    Boolean addUser(UserModel userModel,int otp);
+
+    void getOtp(UserModel userModel);
 
     FoodModel addItems(FoodModel foodModel, Long companyId);
 

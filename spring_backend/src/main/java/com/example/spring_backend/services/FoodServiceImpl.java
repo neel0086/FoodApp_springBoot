@@ -3,16 +3,17 @@ package com.example.spring_backend.services;
 import com.example.spring_backend.entity.*;
 import com.example.spring_backend.model.*;
 import com.example.spring_backend.repository.*;
+import com.example.spring_backend.verification.VerificationRepository;
+import com.example.spring_backend.verification.VerificationToken;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,17 +26,27 @@ public class FoodServiceImpl implements FoodService {
 
     private UserRepository userRepository;
 
-    public FoodServiceImpl(RoleRepository roleRepository,UserRepository userRepository,FoodRepository foodRepository,CompanyRequestRepository companyRequestRepository,CompanyRepository companyRepository,SalesRepository salesRepository) {
+    private static final long OTP_EXPIRATION_MINUTES = 1; // Set the desired expiration time (e.g., 15 minutes)
+
+    private VerificationRepository verificationRepository;
+
+    public FoodServiceImpl(VerificationRepository verificationRepository,RoleRepository roleRepository,UserRepository userRepository,FoodRepository foodRepository,CompanyRequestRepository companyRequestRepository,CompanyRepository companyRepository,SalesRepository salesRepository) {
         this.userRepository=userRepository;
         this.roleRepository=roleRepository;
         this.foodRepository = foodRepository;
         this.companyRequestRepository=companyRequestRepository;
         this.companyRepository=companyRepository;
         this.salesRepository=salesRepository;
+        this.verificationRepository=verificationRepository;
     }
 
     @Override
-    public Boolean addUser(UserModel userModel) {
+    public Boolean addUser(UserModel userModel,int otp) {
+        System.out.println(otp);
+        VerificationToken verificationToken = verificationRepository.findByEmail(userModel.getEmail())
+                .orElseThrow(() -> new NoSuchElementException("Otp expired"));
+        Integer generatedOtp = verificationToken.getOtp();
+        System.out.println(generatedOtp);
         UserEntity userEntity=null;
         try {
             userEntity = userRepository.findByEmail(userModel.getEmail())
@@ -229,6 +240,24 @@ public class FoodServiceImpl implements FoodService {
         AdminStatsModel adminStatsModel = new AdminStatsModel(salesModel);
 
         return adminStatsModel;
+    }
+
+    @Override
+    public void getOtp(UserModel userModel) {
+        Random random = new Random();
+
+        // Define the range of digits for the OTP
+        int min = (int) Math.pow(10, 4);
+        int max = (int) Math.pow(10, 5) - 1;
+
+        // Generate a random number within the defined range
+        int otpValue = random.nextInt(max - min + 1) + min;
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setEmail(userModel.getEmail());
+        verificationToken.setOtp(otpValue);
+        verificationToken.setExpirationDateTime(LocalDateTime.now().plusMinutes(OTP_EXPIRATION_MINUTES));
+        verificationRepository.save(verificationToken);
+
     }
 
 

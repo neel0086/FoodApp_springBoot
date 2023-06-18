@@ -6,6 +6,7 @@ import com.example.spring_backend.payloads.JwtAuthRequest;
 import com.example.spring_backend.payloads.JwtAuthResponse;
 import com.example.spring_backend.security.JwtTokenHelper;
 import com.example.spring_backend.services.FoodService;
+import com.example.spring_backend.verification.UserOtpModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,9 +64,16 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/get_otp")
+    public void getOtp(@RequestBody UserModel userModel) {
+        System.out.println("Hello");
+        foodService.getOtp(userModel);
+    }
+
     @PostMapping("/add_user")
-    public Boolean addUser(@RequestBody UserModel userModel) {
-        return foodService.addUser(userModel);
+    public Boolean addUser(@RequestBody UserOtpModel userOtpModel) {
+
+        return foodService.addUser(userOtpModel.getUserModel(),userOtpModel.getOtp());
     }
 
     @GetMapping("/admin")
@@ -74,7 +82,6 @@ public class AuthController {
 
         // Get the user's authorities (roles)
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
         // Extract role names
         for (GrantedAuthority authority : authorities) {
             roles.add(authority.getAuthority());
