@@ -10,7 +10,7 @@ class FoodService {
             return await axios.post(`${url}/auth/add_user`,userotp)
         }
         catch (error) {
-            console.log("Error while calling addItems API", error);
+            return {data:false};
         }
     }
     getOtp = async (user) =>{

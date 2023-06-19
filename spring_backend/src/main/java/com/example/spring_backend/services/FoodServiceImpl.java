@@ -48,6 +48,7 @@ public class FoodServiceImpl implements FoodService {
         if(generatedOtp!=otp) {
             return false;
         }
+        verificationRepository.delete(verificationToken);
         UserEntity userEntity=null;
         try {
             userEntity = userRepository.findByEmail(userModel.getEmail())
@@ -68,7 +69,6 @@ public class FoodServiceImpl implements FoodService {
             return true;
         }
         catch(Exception e) {
-            System.out.println(e.getMessage());
             userEntity = new UserEntity();
             List<RoleModel> roles = userModel.getRoles();
             List<RoleEntity> user_role = new ArrayList<>();
@@ -256,7 +256,7 @@ public class FoodServiceImpl implements FoodService {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("eatifybot@gmail.com","plmeqaqppupuseaj");
+                return new PasswordAuthentication("eatifybot@gmail.com","");
             }
         });
 
@@ -264,9 +264,19 @@ public class FoodServiceImpl implements FoodService {
         Message m = new MimeMessage(session);
         try{
             m.setFrom(new InternetAddress("eatifybot@gmail.com"));
-            m.setRecipient(Message.RecipientType.TO,new InternetAddress("neelmehta0086@gmail.com"));
-            m.setSubject("Welcome to eatify");
-            m.setText("Welcome to eatify , below is your otp please enter to register your account/nOTP : "+otp);
+            m.setRecipient(Message.RecipientType.TO,new InternetAddress(recipientEmail));
+            m.setSubject("Welcome to Eatify - Account Registration OTP");
+            int otpp = otp; // Replace with the actual OTP
+
+            String message = "Welcome to Eatify!\n\n" +
+                    "Thank you for choosing Eatify to satisfy your food cravings. We're excited to have you on board. Below is your OTP (One-Time Password) to complete your account registration:\n\n" +
+                    "OTP: " + otpp + "\n\n" +
+                    "Please enter this OTP on the registration page to create your account. If you did not request this OTP or have any questions, please ignore this email.\n\n" +
+                    "If you need any assistance or have any further inquiries, feel free to reach out to our support team.\n\n" +
+                    "Enjoy your delicious meals with Eatify!\n\n" +
+                    "Best regards,\n" +
+                    "The Eatify Team";
+            m.setText(message);
             Transport.send(m);
         }
         catch(Exception e){
@@ -287,13 +297,24 @@ public class FoodServiceImpl implements FoodService {
 
         // Generate a random number within the defined range
         int otpValue = random.nextInt(max - min + 1) + min;
+
+        Optional<VerificationToken> existingToken = verificationRepository.findByEmail(userModel.getEmail());
+
+        if (existingToken.isPresent()) {
+            VerificationToken verificationToken = existingToken.get();
+            verificationToken.setOtp(otpValue);
+            verificationToken.setExpirationDateTime(LocalDateTime.now().plusMinutes(OTP_EXPIRATION_MINUTES));
+            verificationRepository.save(verificationToken);
+        } else {
+            VerificationToken verificationToken = new VerificationToken();
+            verificationToken.setEmail(userModel.getEmail());
+            verificationToken.setOtp(otpValue);
+            verificationToken.setExpirationDateTime(LocalDateTime.now().plusMinutes(OTP_EXPIRATION_MINUTES));
+            verificationRepository.save(verificationToken);
+        }
         sendVerificationEmail(userModel.getEmail(),otpValue);
 
-        VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setEmail(userModel.getEmail());
-        verificationToken.setOtp(otpValue);
-        verificationToken.setExpirationDateTime(LocalDateTime.now().plusMinutes(OTP_EXPIRATION_MINUTES));
-        verificationRepository.save(verificationToken);
+
 
     }
 
