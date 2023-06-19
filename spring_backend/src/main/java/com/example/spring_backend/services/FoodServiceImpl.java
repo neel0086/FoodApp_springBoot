@@ -25,7 +25,7 @@ public class FoodServiceImpl implements FoodService {
 
     private UserRepository userRepository;
 
-    private static final long OTP_EXPIRATION_MINUTES = 1; // Set the desired expiration time (e.g., 15 minutes)
+    private static final long OTP_EXPIRATION_MINUTES = 2; // Set the desired expiration time (e.g., 15 minutes)
 
     private VerificationRepository verificationRepository;
 
@@ -41,7 +41,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public Boolean addUser(UserModel userModel,int otp) {
-        System.out.println(otp);
+        System.out.println(userModel);
         VerificationToken verificationToken = verificationRepository.findByEmail(userModel.getEmail())
                 .orElseThrow(() -> new NoSuchElementException("Otp expired"));
         int generatedOtp = verificationToken.getOtp();
@@ -266,7 +266,7 @@ public class FoodServiceImpl implements FoodService {
             m.setFrom(new InternetAddress("eatifybot@gmail.com"));
             m.setRecipient(Message.RecipientType.TO,new InternetAddress("neelmehta0086@gmail.com"));
             m.setSubject("Welcome to eatify");
-            m.setText("Hello your otp is:");
+            m.setText("Welcome to eatify , below is your otp please enter to register your account/nOTP : "+otp);
             Transport.send(m);
         }
         catch(Exception e){
