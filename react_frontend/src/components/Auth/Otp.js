@@ -12,7 +12,6 @@ const navigate = useNavigate()
             navigate("/login")
         }
         else{
-            console.log("Otp is incoorect")
         }
 
     }

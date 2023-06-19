@@ -10,7 +10,6 @@ const Food = () => {
             const data = await FoodService.getAllItems()
             setFoodData(data.data)
             setFoods(data.data)
-            // console.log(data.data)
         }
         fetchInfo()
     }, [])

@@ -8,17 +8,14 @@ function Inbox() {
   const [selectedCompany, setSelectedCompany] = useState(false);
 
   useEffect(() => {
-    console.log("Hello ")
     const fetchInfo = async () => {
       const data = await FoodService.getAllCompany();
       setInboxMails(data);
-      console.log(data);
     };
     fetchInfo();
   }, []);
   const navigate = useNavigate();
   const handleRowClick = (mail) => {
-    console.log(mail)
     navigate("/admin/inbox/"+mail.id,{state:{selectedCompany:mail}});
   };
 

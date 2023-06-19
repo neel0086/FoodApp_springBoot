@@ -11,13 +11,11 @@ function Users() {
         const fetchInfo = async () => {
             const data = await FoodService.getAllVerifiedCompany();
             setVerifiedCompany(data);
-            console.log(data);
         };
         fetchInfo();
     }, []);
     const navigate = useNavigate();
     const handleRowClick = (mail) => {
-        console.log(mail)
         navigate("/admin/Users/" + mail.id, { state: { selectedCompany: mail } });
     };
 

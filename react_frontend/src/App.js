@@ -32,8 +32,7 @@ const App = () => {
 
       const role = await FoodService.getUserRole()
       setUserRole(role)
-      Array.from(userRole).forEach((r, idx) => {
-        console.log(r)
+      Array.from(role).forEach((r, idx) => {
 
         if (r == "ROLE_ADMIN") {
           setRoleAdmin(true)

@@ -14,13 +14,11 @@ function CategoryItem() {
     useEffect(() => {
         const fetchInfo = async () => {
             const data = await FoodService.getAllItems()
-            console.log(data.data)
             const filteredData =await data.data.filter((item) => {
                 return item.category.toLowerCase()== category.toLocaleLowerCase();
             })
             setFoodData(filteredData)
             setFoods(filteredData)
-            // console.log(data.data)
         }
         fetchInfo()
     },[])

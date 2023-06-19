@@ -22,13 +22,12 @@ const Navbar = () => {
     const [roleAdmin, setRoleAdmin] = useState(false)
     const [userLogged, setUserLogged] = useState(false)
     useEffect(() => {
-        // console.log(userRole)
+        // (userRole)
         if(userRole!=null && userRole.length>0){
             setUserLogged(true)
         }
         
         Array.from(userRole).forEach((r,idx)=> {
-            console.log(r)
 
             if (r == "ROLE_ADMIN") {
                 setRoleAdmin(true)

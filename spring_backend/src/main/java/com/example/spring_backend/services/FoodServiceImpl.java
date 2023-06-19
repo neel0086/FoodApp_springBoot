@@ -256,7 +256,7 @@ public class FoodServiceImpl implements FoodService {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("eatifybot@gmail.com","");
+                return new PasswordAuthentication("eatifybot@gmail.com","plmeqaqppupuseaj");
             }
         });
 
